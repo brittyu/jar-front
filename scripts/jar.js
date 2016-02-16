@@ -1,2 +1,2 @@
-/*! jar 2016-02-04 */
-function sayHi(){console.log("hello world")}
+/*! jar 2016-02-16 */
+console.log("hello world");

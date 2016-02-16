@@ -6,15 +6,32 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    cssmin: {
+      minify: {
+        expand: true,
+        cwd: 'css/',
+        src: ['*.css', '!*.min.css'],
+        dest: 'css/',
+        ext: '.min.css'
+      },
+      combine: {
+        files: {
+          'css/out.min.css': []
+        }
+      }
+    },
     sass: {
       dist: {
         options: {
-            style: 'expanded'
+          style: 'expanded'
         },
-        files: {
-          'main.css': 'main.scss',
-          'widgets.css': 'widgets.scss'
-        }
+        files: [{
+          expand: true,
+          cwd: 'sass',
+          src: ['*.scss'],
+          dest: 'css',
+          ext: '.css'
+        }]
       }
     },
     uglify: {
@@ -22,8 +39,11 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/jar.js',
-        dest: 'scripts/jar.js'
+        expand: true,
+        cwd: 'src',
+        src: ['*.js'],
+        dest: 'scrpts',
+        ext: '.js'
       }
     },
     jshint: {
@@ -52,7 +72,8 @@ module.exports = function(grunt) {
         options: {
           livereload: '<%= connect.options.livereload %>'
         },
-        files: ['**.html', '**.css', '**.js']
+        files: ['**.html', 'sass/*', 'src/'],
+        tasks: ['dosass']
       }
     }
   });
@@ -60,5 +81,5 @@ module.exports = function(grunt) {
   // Creates the 'serve' task
   grunt.registerTask('serve', ['connect:all', 'jshint', 'watch']);
   grunt.registerTask('default', ['jshint', 'uglify', 'sass']);
-  grunt.registerTask('sass', ['sass']);
+  grunt.registerTask('dosass', ['sass']);
 };
