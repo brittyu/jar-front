@@ -6,13 +6,24 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    sass: {
+      dist: {
+        options: {
+            style: 'expanded'
+        },
+        files: {
+          'main.css': 'main.scss',
+          'widgets.css': 'widgets.scss'
+        }
+      }
+    },
     uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/*.js',
-        dest: 'scripts/*.js'
+        src: 'src/jar.js',
+        dest: 'scripts/jar.js'
       }
     },
     jshint: {
